@@ -25,7 +25,7 @@ if (filenames.length > 0) {
   })
 
   rl.question(`Files: ${filenames.join('\n       ')}\nConverting these files from ${fromExtension} to ${toExtension}. Is that okay? (y/n) `, answer => {
-    if (answer.toLowerCase() === 'y') {
+    if (answer.trim()[0].toLowerCase() === 'y') {
       console.log(`Converting ${fromExtension} files to ${toExtension} files...`)
       filenames.forEach(filename => 
         fs.renameSync(filename, filename.replace(extensionRegex, toExtension)))
@@ -36,5 +36,8 @@ if (filenames.length > 0) {
     rl.close()
   })
 } else {
-  console.log(`No ${fromExtension} files to convert in your current directory.`)
+  console.log(`No ${fromExtension} files to convert in your current directory.\n` +
+    (toExtension === '.txt' ? 
+      'If you want to convert .txt files to .js files, use the --txt-to-js argument.' :
+      'If you want to convert .js files to .txt files, omit the --txt-to-js argument.'))
 }
